@@ -1,0 +1,30 @@
+LOCAL_PATH := $(call my-dir)
+include $(LOCAL_PATH)/../common.mk
+include $(CLEAR_VARS)
+
+LOCAL_MODULE                  := libqdutils
+LOCAL_VENDOR_MODULE           := true
+LOCAL_MODULE_TAGS             := optional
+LOCAL_SHARED_LIBRARIES        := $(common_libs) libui libbinder libqservice libhardware libutils libhardware
+LOCAL_C_INCLUDES              := $(common_includes) hardware/libhardware/include
+LOCAL_CFLAGS                  := $(common_flags) -DLOG_TAG=\"qdutils\" -Wno-float-conversion
+LOCAL_HEADER_LIBRARIES        := display_headers generated_kernel_headers libutils_headers libhardware_headers
+LOCAL_SRC_FILES               := profiler.cpp mdp_version.cpp \
+                                 idle_invalidator.cpp \
+                                 comptype.cpp qd_utils.cpp \
+                                 cb_utils.cpp display_config.cpp \
+                                 cb_swap_rect.cpp
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_SHARED_LIBRARIES          := liblog libcutils libhardware
+LOCAL_HEADER_LIBRARIES          := display_headers generated_kernel_headers libhardware_headers
+LOCAL_C_INCLUDES                := hardware/libhardware/include
+LOCAL_SRC_FILES                 := qdMetaData.cpp
+LOCAL_CFLAGS                    := $(common_flags)
+LOCAL_CFLAGS                    += -DLOG_TAG=\"DisplayMetaData\"
+LOCAL_MODULE_TAGS               := optional
+LOCAL_MODULE                    := libqdMetaData
+LOCAL_VENDOR_MODULE             := true
+include $(BUILD_SHARED_LIBRARY)
